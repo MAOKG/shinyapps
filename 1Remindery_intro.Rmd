@@ -1,0 +1,197 @@
+---
+title: 'Remindery Unit 1: Introduction to R'
+resource_files:
+- 1Remindery_intro.Rmd
+runtime: shiny_prerendered
+output:
+  learnr::tutorial:
+    progressive: yes
+---
+
+```{r setup, include=FALSE}
+# Need to install these packages
+library(learnr)
+library(psych)
+library(DescTools)
+knitr::opts_chunk$set(echo = FALSE)
+tutorial_options(exercise.timelimit = 60, exercise.completion = FALSE)
+```
+
+# Welcome to the ReMInDeRY! 
+### (Research Methods: Interactive Demonstrations in R at York University)
+
+Here we host a set of interactive demonstrations for concepts related to research methods. These demonstrations will also introduce you to the statistical program called R.
+
+**If you are just starting the tutorial, please begin by clicking 'Start Over' at the bottom of the index to your left.**
+
+If you have any questions and comments, please contact Dr. Raymond Mar [(mar@yorku.ca)](mailto:mar@yorku.ca?subject=Remindery-Unit1)
+
+## **UNIT 1: About R** {data-progressive=TRUE}
+
+**GOALS:**
+
+**- Become familiar with the tutorial format (e.g., exercises, hints).**
+
+**- Learn the basics of R code, editing and running this code.**
+
+---
+
+R is a completely free and open-source software program that allows you to conduct both simple and complex statistics. It is a very powerful program once you've mastered it and knowing how to use R is a very valuable skill for many occupations. 
+
+If you like, you can install R on your home computer. The most popular way to use R is with the assistance of another program called R studio, which makes it easier to interact with R and see its output. 
+
+[If you want to install R, Click Me!](https://www.r-project.org)
+
+[To install R Studio, Click Me!](https://www.rstudio.com/products/rstudio/download/)
+
+But it's not absolutely necessary to install R on your computer. You will be able to complete all of these demonstrations just using your web browser. 
+
+### Running Code in R {data-progressive=TRUE}
+For example, the window below presents a bit of code. Click 'Run Code' to see what happens when you run this bit of code. 
+
+You should see the words Hello World appear in the window below the code. This is where all the output for the R code you run will appear.
+
+For all of these exercises:
+- If you're not sure what to do, then click the 'Hint' button to get some advice. 
+- At any point, you can click the 'Start Over' button to reset everything in this box, or the 'Start Over' link in the left-hand column to start this entire Unit over again. 
+
+```{r sayhello, exercise = TRUE}
+print("Hello World!")
+```
+
+<div id="sayhello-hint">
+**Hint:** Click the blue 'Run Code' button to run this bit of code and see what happens.
+</div>
+
+### Editing Code in R {data-progressive=TRUE}
+CONGRATULATIONS! You've just run your first bit of R code!
+If you ever want to look back at a previous step to review, just scroll up.
+
+In these demonstrations, we're often going to ask you to make some small changes to the code presented. 
+For example, try changing the code so that it says something else. 
+You can have R print out whatever you want, but just as a suggestion you could have it say, `"My prof is great!"`
+
+- You can always click the 'Hint' button to get some advice. 
+- Or click the 'Start Over' button to reset everything in this box (or the 'Start Over' link in the index to re-set the entire Unit).
+
+```{r sayhello2, exercise = TRUE}
+print("Hello World!")
+```
+
+<div id="sayhello2-hint">
+**Hint:** Change the `"Hello World"` text in the box and then click the blue 'Submit Answer' button to see what happens.
+</div>
+
+If you see what you've changed 'Hello World' to in a box below the code, then you've done things correctly!
+
+## How R manages data using Objects {data-progressive=TRUE}
+
+CONGRATULATIONS! You've just edited/written your first bit of R code. 
+
+Now we're going to learn a bit about how R manages data. 
+R uses OBJECTS, which are basically a container that holds data. 
+Then it uses FUNCTIONS to perform operations or calculations on these objects and the data inside. 
+
+### Putting data in an object {data-progressive=TRUE}
+
+For example, the code below does a very simple calculation and then puts the result inside an object named `x`.
+To put data into an object, we use the following arrow: `<-`
+
+If you run the code now, you won't see anything happen because there's no result to display. The result of the calculation is inside the object, named `x`.
+
+To see inside the object, write the name of the object on the next line in the box (Line 2), then click 'Run Code'.
+
+- You can always click the 'Hint' button to get some advice. 
+- Or click the 'Start Over' button to reset everything in this box (or the 'Start Over' link in the index to re-set the entire Unit).
+
+```{r dataobject, exercise = TRUE}
+x <- 1 + 1
+```
+
+<div id="dataobject-hint">
+**Hint:** Write the name of the object (`x`) on its own line in the box of code (i.e., line 2), below what is already displayed. And then click the 'Submit Answer' button.
+</div>
+
+You should see the result of the calculation, `[1] 2`, appear in the box below the code. The first number in [square brackets] just let’s you know that this is the first line of the output.
+
+### Putting different kinds of data in objects {data-progressive=TRUE}
+
+Note that you can call the object anything you want; it doesn't have to be `x`. 
+
+Similarly, you can put all kinds of different information into this object. 
+
+So, for example, try 
+1. changing the name of the object AND 
+2. instead of `1 + 1`, put a set of numbers into the object, using the following code: 
+
+```
+c(1, 2, 2, 3, 3, 3, 3, 4, 4, 5)
+```
+
+The small `c` stands for concatenate, or put together end-to-end. So, this chunk of code puts all those numbers in a row. Edit the code in the box below to place the concatenated numbers inside the object (instead of `1 + 1`) by using the `<-` we learned about. Don't forget to change the name of the object, from `x` to something else that you've chosen. NOTE: Object names cannot include any spaces!
+
+Then, take a look at what's inside this object by writing its new name again on a new line, below the code you have edited. Click 'Run Code' to see the result of your coding. 
+
+- You can always click the 'Hint' button to get some advice. 
+- Or click the 'Start Over' button to reset everything in this box (or the 'Start Over' link in the index to re-set the entire Unit).
+
+```{r dataobject2, exercise = TRUE}
+x <- 1 + 1
+```
+
+<div id="dataobject2-hint">
+**Hint:** Edit the code to change the name of the object (`x`) to something else (e.g., `Suparna`). Then, to the right of the arrow (`<-`), write in the string of numbers inside parentheses, with a c at the front: `c(1, 2, 2, 3, 3, 3, 3, 4, 4, 5)`
+
+Then, write the new name of the object (e.g., `Suparna`) on its own line (i.e., line 2).
+</div>
+
+What you should see is the following:
+ [1] 1 2 2 3 3 3 3 4 4 5
+ 
+(Once again, the first number in [square brackets] just let's you know that this is the first line of the resulting output.)
+
+### Operating on Objects {data-progressive=TRUE}
+
+Once we have data inside an object, we can do more than just look inside and see that data. 
+We can perform all kinds of different calculations, operations, and functions using that object (and the data inside) as input. 
+
+For example, below, we're going to put some data inside an object, called `Frankie`. 
+Next, we want you to write some code to calculate the mean (or average) for these data.
+The code for calculating the mean looks like this: `mean(OBJECT)`
+Except, instead of the word `OBJECT`, you'd put the name of our object that is holding our data. 
+
+Try it out below. Calculate the mean for these data. 
+
+- You can always click the 'Hint' button to get some advice. 
+- Or click the 'Start Over' button to reset everything in this box (or the 'Start Over' link in the index to re-set the entire Unit).
+
+```{r meanFrankie, exercise = TRUE}
+Frankie <- c(1, 100, 326, 3, 26, 88, 20)
+```
+
+<div id="meanFrankie-hint">
+**Hint:** On a new line, write some code that calculates the mean for the data placed inside this object. Replace the word OBJECT from the example above, with the name of the object. And then click the 'Run Code' button.
+</div>
+
+### You're Done! {data-progressive=TRUE}
+
+If you've done things correctly above, you should see the mean, also known as the average, for those numbers, which is 80.57143 (try scrolling up, if you can't see the result of the code).
+
+**And that completes your Introduction to R!** 
+You now know how to use these tutorials, by editing and writing R code within the tutorial windows and observing the results. 
+You've also learned how to put data into an object and then use functions to perform calculations or operations on those objects. 
+You're well on your way to becoming an R guru, and now you can use these tutorials (and R) to learn some important concepts related to research methods. 
+
+**CONGRATULATIONS!**
+
+You've completed the first Unit of the ReMInDeRY, and are on your way to becoming a veritable expert in R!
+
+If you are not sure you understood everything in this Unit, you can go through it again by clicking the 'Start Over' link in the Index, at the top-left part of your screen.
+
+**IMPORTANT NOTE FOR YORK STUDENTS:**
+
+PSYC 2030 (Research Methods) students: In order to get full marks for this assignment you must complete the Quiz for this tutorial, mentioned in the eClass assignment.
+
+PSYC 2020 (Statistics) students: [Click this link and enter all requested information carefully and accurately in order to receive your points for completing this tutorial](https://forms.gle/uR7ToiFMcpdPbCSS7).
+
+Now you're ready to tackle [Unit 2 of the ReMInDeRY](https://remindery.info.yorku.ca/demos/).

@@ -1,0 +1,357 @@
+---
+title: "Remindery Unit 3: Measures of Central Tendency (2) and Variability"
+output: 
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+# Need to install these packages
+library(learnr)
+library(psych)
+knitr::opts_chunk$set(echo = FALSE)
+tutorial_options(exercise.timelimit = 60, exercise.completion = FALSE)
+```
+
+# Welcome to the ReMInDeRY! 
+### (Research Methods: Interactive Demonstrations in R at York University)
+
+Here we host a set of interactive demonstrations for concepts related to research methods. These demonstrations will also introduce you to the statistical program called R.
+
+**If you are just starting the tutorial, please begin by clicking 'Start Over' at the bottom of the index to your left.**
+
+If you have any questions and comments, please contact Dr. Raymond Mar [(mar@yorku.ca)](mailto:mar@yorku.ca?subject=Remindery-Unit3)
+
+## **UNIT 3: Measures of Central Tendency (Part 2) and Variability** {data-progressive=TRUE}
+
+**GOALS:**
+
+**- Explore how the spread of scores influences different measures of central tendency.**
+
+**- Visualize your data and examine its distribution by producing a histogram.**
+
+**- Manipulate data by adding and combining it, or generating it.**
+
+---
+
+In Unit 2, we learned about 3 measures of central tendency: the mean, the median, and the mode. All 3 help us to summarize a lot of data, making all these numbers easier to understand and to work with. However, the 3 measures of central tendency are also different, meaning different things and serving different purposes.
+
+* **The Mean** is the average response across all of the data. It is the most commonly used and is typically what people mean when they talk about the average of something.
+* **The Median** is the middle response, the response right in the middle of the distribution of the data. You could think of this as the average person's individual response, perhaps. It is less commonly reported and used, but is very useful in some instances and superior to the Mean in some cases.
+* **The Mode** is the most frequent or most common response. It is the answer to the question, "What do most people say?" 
+
+### Differences between the Mean and the Median {data-progressive=TRUE}
+
+Sometimes the Mean and Median are very similar. Let's take a look at our data from the last unit, which reported all the Cats and Dogs registered within each postal code area of Toronto. I've taken the liberty of loading the data into an object called `TOcatsdogs`, just like in Unit 2. This object, `TOcatsdogs` now contains our data on pet ownership in Toronto. 
+
+Use the R window below to find the Mean and the Median for the number of Dogs per postal code area in Toronto, then use your answers to complete the Quiz below. You may want to first familiarize yourself with what these data look like. Do you remember how we view the first few rows of an object from Unit 2? If you don't remember, you can always review Unit 2, or search for the answer online.
+
+A document that contains lines of code is known as a SCRIPT, and a script will typically contain many different functions with each function on a different line. So you can write a small script in the box below to look at the first few lines of the data, then find the Mean and Median for the number of Dogs per postal code in Toronto. 
+
+```{r prepare-catsdogs}
+TOcatsdogs <- read.csv (url("http://www.yorku.ca/mar/2016_licenced_dogs_and_cats.csv"))
+```
+
+```{r MMdndogs, exercise = TRUE, exercise.setup = "prepare-catsdogs", exercise.completion = TRUE}
+
+```
+
+<div id="MMdndogs-hint">
+**Hint:** You should know the functions to find the `mean()` and the `median()`, now you just need to put the right data-object within the parentheses. Remember that the whole dataset is called `TOcatsdogs` and that we use a `$` to specify a particular column or variable of interest, which in this case is `DOG`. So the object we're interested in is `TOcatsdogs$DOG`.
+</div>
+
+```{r MMdndogsquiz, echo = FALSE}
+quiz(caption = "Dogs in Toronto",
+    question("What is the Mean number of Dogs per postal code area in Toronto?",
+           answer("561.3128"), 
+           answer("562.4592", correct = TRUE),
+           answer("479.21"),
+           answer("Too many"),
+           incorrect = "Wrong answer: Don't just guess, use the R window above to calculate your answer.", 
+           allow_retry = TRUE
+),
+   question("What is the median number of Dogs per postal code area in Toronto?",
+           answer("613.5"), 
+           answer("515"),
+           answer("517", correct = TRUE),
+           answer("562.46"),
+           answer("Not enough"),
+           incorrect = "Wrong answer: Don't just guess, use the R window above to calculate your answer.", 
+           allow_retry = TRUE
+)
+)
+```
+
+### Differences between the Mean and the Median {data-progressive=TRUE}
+
+Excellent work! You can see that the Mean number of dogs and the Median number of dogs is actually rather similar: 562.5 versus 517. 
+
+So you might be wondering why we need the Median at all. Well, the thing about the Mean is that it averages across all of the data and therefore it can be highly affected by **Outliers**. 
+Outliers are values or numbers that are rather extreme, so much smaller or larger than all the rest of the numbers. 
+
+For example, let's take our data of Cats and Dogs and add a new row that looks like this:
+
+| AREA | CAT | DOG | TOTAL |
+| :---: | :---: |:---: | :---: |
+| M9Z | 1 | 6999 | 7000 |
+
+In other words, we're adding an imaginary new postal code (M9Z) in Toronto in which there are registered 6,999 Dogs and 1 lonely Cat. 
+
+To add these data to our dataset (located in our object, `TOcatsdogs`), we'd use the following line of code:
+```
+NewRow <- data.frame(AREA="M9Z", CAT = 1, DOG = 6999, TOTAL = 7000)
+TOcatsdogs_outlier <- rbind (TOcatsdogs, NewRow)
+```
+In this code, we first make a new dataset that includes the information we want to add to `TOcatsdogs`, and we're going to place it in an object that we call `NewRow`. To do this, we're using the `data.frame()` function to create a new data-frame, that includes the information we're adding, with each value associated with a column name or header (these match the column names for our existing dataset: AREA, CAT, DOG, TOTAL).
+Next, we're going to use the `rbind()` command, which stands for Row Bind, or bind two objects together by their rows (as opposed to their columns, which would be `cbind()`). The two objects we're joining together are our old dataset, located in the object `TOcatsdogs`, and our new one, in the object `NewRow`. Once we've joined these two things together, we'll place them into a new object, which we're calling `TOcatsdogs_outlier`. Remember that we typically put the result of any operation or function into an object, that way we can manipulate the result further. Because we are often putting datasets into objects, we can often use these terms interchangeably.
+Make sense?
+
+Let's take a look to see if everything worked properly. In order to do so, we're going to learn a new function: `tail()`. This function is just like `head()`, but instead of showing us the first few rows of a dataset, it shows us the last few. This way we can look and see if we were successful in adding this new row of data to our dataset. Give it a try below!
+
+```{r tail, exercise = TRUE, exercise.setup = "prepare-catsdogs", exercise.completion = TRUE}
+NewRow <- data.frame(AREA="M9Z", CAT = 1, DOG = 6999, TOTAL = 7000)
+TOcatsdogs_outlier <- rbind (TOcatsdogs, NewRow)
+
+```
+
+<div id="tail-hint">
+**Hint:** Add the code to look at the end of the dataset to what's already in the box, then run everything. Be sure to put the name of the **new dataset** (with the outlier) into the parentheses for `tail()`.
+</div>
+
+### Differences between the Mean and the Median (2) {data-progressive=TRUE}
+
+If everything worked properly, you should see a 99th row, for postal code M9Z at the end of our `TOcatsdogs_outlier` dataset. 
+
+Ok, let's compare the mean and the median, now that we've added this outlier. But let's also learn a new function that can help us do so. The package called `psych` includes all kinds of useful functions. How would we go about installing and loading this package?
+
+```{r packages, echo = FALSE}
+quiz(caption = "Installing and Loading Packages",
+    question("What is the code to install the psych package?",
+           answer("load(psych)"), 
+           answer("install(psych)"),
+           answer("install.package.psych"),
+           answer("install.packages(\"psych\")", correct = TRUE),
+           incorrect = "Wrong answer: You can find the answer in Unit 2.", 
+           allow_retry = TRUE
+),
+   question("What is the code to load the psych package so you can use its functions?",
+           answer("load(psych)"), 
+           answer("library(psych)", correct = TRUE),
+           answer("install.packages(psych)"),
+           answer("install(psych)"),
+           incorrect = "Wrong answer: The answer is in Unit 2.", 
+           allow_retry = TRUE
+)
+)
+```
+
+### Differences between the Mean and the Median (3) {data-progressive=TRUE}
+
+Great! Now that this package has been loaded we can use one of its very useful functions, `describe()`. The `describe()` function provides a lot of useful descriptives for a variable, including the mean and the median. Use what you know about R to find the mean and the median using the `describe()` function for our new dataset (`TOcatsdogs_outlier`) and the variable we're interested in, `DOG`.
+
+```{r prepare-dogsoutliers}
+TOcatsdogs <- read.csv (url("http://www.yorku.ca/mar/2016_licenced_dogs_and_cats.csv"))
+NewRow <- data.frame(AREA="M9Z", CAT = 1, DOG = 6999, TOTAL = 7000)
+TOcatsdogs_outlier <- rbind (TOcatsdogs, NewRow)
+```
+
+```{r describe, exercise = TRUE, exercise.setup = "prepare-dogsoutliers", exercise.completion = TRUE}
+
+
+```
+
+```{r describe-hint-1}
+describe()
+```
+
+```{r describe-hint-2}
+describe(TOcatsdogs_outlier$D__)
+```
+
+```{r describe-hint-3}
+describe(TOcatsdogs_outlier$DOG)
+```
+
+If the whole output doesn't fit on your screen, you'll find a small black arrow at the right of the table, clicking that will reveal the rest of the table (clicking the arrow that appears on the left allows you to go back).
+
+```{r describequiz, echo = FALSE}
+quiz(caption = "Differences between the Mean and the Median",
+    question("What is the Median number of Dogs per Postal Code in Toronto?",
+           answer("351.38"), 
+           answer("517"),
+           answer("521", correct = TRUE),
+           answer("560.21"),
+           answer("627.47"),
+           incorrect = "Wrong answer: Be sure to complete the previous R exercise and read the output carefully.",
+           allow_retry = TRUE
+),
+    question("What is the Mean number of Dogs per Postal Code in Toronto?",
+           answer("351.38"), 
+           answer("517"),
+           answer("521"),
+           answer("560.21"),
+           answer("627.47", correct = TRUE),
+           incorrect = "Wrong answer: Be sure to complete the previous R exercise and read the output carefully.",
+           allow_retry = TRUE
+))
+```
+
+### Differences between the Mean and the Median (3) {data-progressive=TRUE}
+
+Now you can see that our mean and our median differ quite a lot for this variable! By just adding one row of data, a new postal code that has 6,999 dogs in it, the mean becomes 627.5 whereas the median becomes 521. Without this one new piece of data--which is an outlier (or extreme value, much larger than the others)--the mean (562.5) and the median (517) were relatively similar. But now, with the outlier, the mean changes a lot (by about 65 dogs) whereas the median changes very little (by 3 dogs).
+
+If you think about why this happens, it makes a lot of sense. To find the median, you simply find the data-point that is right in the middle of the distribution after you've sorted the data from smallest to biggest. So adding our one outlier (6,999) means shifting the median over just a tiny bit (by one value). In contrast, to calculate the mean, we add all the numbers together and then divide by how many numbers we have. This means adding 6,999 to our previous sum, which is a lot! So even after we divide by our number of postal codes, it still means a big increase for the mean. 
+
+Because means can be more highly influenced by outliers than medians, means can provide a poor picture of the overall data when an outlier (or outliers) exists. This is why it's often very useful to look at medians as well as means. 
+
+### Variability {data-progressive=TRUE}
+
+Summary statistics, like our measures of central tendency (i.e., the mean, median, and mode), attempt to summarize a large amount of data. But it's hard to use just one number to properly summarize or represent a whole bunch of data (i.e., a whole lot of numbers). 
+
+Let's take a look at our data on cats and dogs in Toronto using a histogram or frequency chart. This is a basic figure showing possible values (or responses) along the bottom (the x-axis) and then how many data-points there are for these values (along the upright y-axis). In other words, for our data, this is a very simple visualization of how many postal codes have about 100 pets registered in them, or 400, or 1300. Similar to how we used `head()` and `tail()` to look at our data, creating a histogram using the `hist()` function is just another way of looking at or visualizing our data.
+Try using the `hist()` function to produce a histogram, for the `TOTAL` number of cats and dogs per postal code in Toronto!
+
+```{r histogram, exercise = TRUE, exercise.setup = "prepare-catsdogs", exercise.completion = FALSE}
+
+
+```
+
+```{r histogram-hint-1}
+hist()
+```
+
+```{r histogram-hint-2}
+hist(TOcatsdogs)
+```
+
+```{r histogram-hint-3}
+hist(TOcatsdogs$T____)
+```
+
+```{r histogram-hint-4}
+hist(TOcatsdogs$TOTAL)
+```
+
+### Distributions of Data an Variability {data-progressive=TRUE}
+Looking at our histogram, it seems like most of our data is clumped somewhere between 500 and 1000 pets per postal code, so around 750 would be a good guess for our measures of central tendency like the mean and the median. You can see this in the histogram because the highest bars (indicating the most frequent scores) like within this range. 
+
+It turns out that the mean is 814.5 and the median is 762 (you can use your R skills in the window above to double-check this), so 750 was a pretty good guess. 
+
+But you can probably also see how the mean and the median don't actually tell us everything about our data. For example, it doesn't tell us how spread out the data are. 
+
+As an example, consider these two histograms:
+
+```{r distributions, message=FALSE, echo=FALSE}
+set.seed(1234)
+x <- rnorm(n=300, mean=100, sd=15)
+y <- rnorm(n=300, mean=100, sd=60)
+hist (x, xlim = c(-150, 310))
+hist (y, xlim = c(-150, 310))
+```
+
+It turns out, that these two sets of data have the exact same mean (they also have the same number of data-points, in case you're curious). So if all I told you was the mean, you might think that these datasets are identical or at least very similar. But, you can see for yourself that these two sets of data are in fact very different. The way in which they differ is in how spread out the data are, or how much each individual data-point differs from one another. This is known as **VARIABILITY**, or the degree to which the data-points vary or differ from one another. How many different values or responses do we have? That's variability. If everyone gives the same answer, then we have no variability. If everyone gives a very different answers, then we have a high degree of variability. 
+
+Although there are many different measures of variability, we're going to learn about once, know as the **standard deviation**. 
+
+### The Standard Deviation {data-progressive=TRUE}
+
+The **standard deviation** is in essence an average of how far away each individual data-point is from the mean, often abbreviated as *SD*. If all the data are clustered very close to the mean, then we have low variability and a smaller SD. In contrast, if all our data are very spread out and many data points are far away from the mean, we have greater variability and a larger SD. 
+
+Below is the R code that I used to generate data and produce the two histograms previously. Take a close look at this code and try to figure out how to make your own histograms with different SDs (e.g., small and large SDs). This will help you get a sense for how SD relates to the spread of data.
+
+```{r histogram2, exercise = TRUE, exercise.setup = "prepare-catsdogs", exercise.completion = FALSE}
+set.seed(1234)
+x <- rnorm(n=300, mean=100, sd=15)
+hist (x, xlim = c(-150, 310))
+```
+
+```{r histogram2-hint-1}
+x <- rnorm(n=300, mean=100, sd=15) #### This is the relevant line.
+```
+
+```{r histogram2-hint-2}
+x <- rnorm(n=300, mean=100, sd=15) 
+#### Try changing the value for SD, which is now '15', to different numbers and see what happens.
+```
+
+```{r histogram2-hint-3}
+#### If you like, you can fool around with changing the other parameters to see how they affect the output.
+```
+
+### The Standard Deviation (2) {data-progressive=TRUE}
+
+Ok, now that you've gotten a sense of the SD, let's take another look at our data for cats and dogs in Toronto, including the outlier (i.e., the postal code we added with 6,999 dogs in it).
+
+Practice your R skills by using the `describe()` function from the `psych` package to get some descriptive statistics for the `TOTAL` number of pets in Toronto, using our dataset that includes the outlier: `TOcatsdogs_outlier`. Then do the same for the numbers for `CAT` and `DOG` in the same dataset. Practice writing a longer script by placing all 3 of the needed lines of code on a different line, to get the different results. Then use what you've learned to answer the Quiz questions below.
+
+```{r SD, exercise = TRUE, exercise.setup = "prepare-dogsoutliers", exercise.completion = TRUE}
+
+```
+
+<div id="SD-hint">
+**Hint:** You have already learned all you need to know to complete this exercise. If you're feeling stuck, go back and revisit the previous units to refresh you memory on how to use `describe()`, and how to do identify specific columns like `CAT` and `TOTAL` in a dataset. Be sure you're using the right dataset, the one with the outlier already included (i.e. ,`TOcatsdogs_outlier`).
+</div>
+
+
+```{r SDquiz, echo = FALSE}
+quiz(caption = "The Standard Deviation",
+    question("What is the SD for the TOTAL number of pets per Postal Code in Toronto?",
+           answer("351.38"), 
+           answer("773.97", correct = TRUE),
+           answer("521"),
+           answer("560.21"),
+           answer("627.47"),
+           incorrect = "Wrong answer: Use the R window above to find the answer and read the output carefully.",
+           allow_retry = TRUE
+),
+    question("What is the SD for the number of DOGS per Postal Code in Toronto?",
+           answer("351.38"), 
+           answer("517"),
+           answer("718.23", correct = TRUE),
+           answer("560.21"),
+           answer("627.47"),
+           incorrect = "Wrong answer: Use the R window above to find the answer and read the output carefully.",
+           allow_retry = TRUE
+),
+    question("What is the SD for the number of CATS per Postal Code in Toronto?",
+           answer("351.38"), 
+           answer("517"),
+           answer("521"),
+           answer("560.21"),
+           answer("159.95", correct = TRUE),
+           incorrect = "Wrong answer: Use the R window above to find the answer and read the output carefully.",
+           allow_retry = TRUE
+),
+    question("What is one way we can tell that there is an outlier (or extreme value) within the data for the number of DOGS per Postal Code in Toronto?",
+           answer("The Mean for TOTAL is larger than for DOGS"), 
+           answer("The Median for CATs is much larger than for DOGS"),
+           answer("The Median for DOGS is much larger than for CATS"),
+           answer("The SD for CATS is much larger than for DOGS"),
+           answer("The SD for DOGS is much larger than for CATS", correct = TRUE),
+           incorrect = "Wrong answer: Think about what the SD represents, and what you observe about the data using the R window above.",
+           allow_retry = TRUE
+))
+```
+
+### Unit 3 Summary {data-progressive=TRUE}
+
+**CONGRATULATIONS!** You've completed Unit 3 of the Remindery. In this unit you learned:
+
+* How outliers affect the mean and median differently.
+* Another form of summary statistic, related to the variability or spread of data.
+* What a histogram is and how it can be used to visualize your data.
+* How to create histograms using R.
+* One measure of variability, known as the Standard Deviation (SD).
+* How distributions of data with different SDs look.
+* How outliers can affect the SD.
+
+And hopefully you've become a bit more confident in your use of R to think about all these things.
+
+If you're interested in learning more about R, perhaps downloading it to your own computer or exploring other resources for learning R, you can find them [on the ReMInDeRY website.](https://remindery.info.yorku.ca/other-resources/)
+
+**IMPORTANT NOTE FOR YORK STUDENTS:**
+
+PSYC 2030 (Research Methods) students: In order to get full marks for this assignment you must complete the Quiz for this tutorial, mentioned in the eClass assignment.
+
+PSYC 2020 (Statistics) students: [Click this link and enter all requested information carefully and accurately in order to receive your points for completing this tutorial](https://forms.gle/JwVrAzrDAyah8cGf8).

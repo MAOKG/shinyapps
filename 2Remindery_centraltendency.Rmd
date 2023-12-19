@@ -1,0 +1,342 @@
+---
+title: 'Remindery Unit 2: Measures of Central Tendency'
+resource_files:
+- 2Remindery_centraltendency.Rmd
+runtime: shiny_prerendered
+output:
+  learnr::tutorial:
+    progressive: yes
+---
+
+```{r setup, include=FALSE}
+# Need to install these packages
+library(learnr)
+library(psych)
+library(DescTools)
+knitr::opts_chunk$set(echo = FALSE)
+tutorial_options(exercise.timelimit = 60, exercise.completion = FALSE)
+```
+
+# Welcome to the ReMInDeRY! 
+### (Research Methods: Interactive Demonstrations in R at York University)
+
+Here we host a set of interactive demonstrations for concepts related to research methods. These demonstrations will also introduce you to the statistical program called R.
+
+**If you are just starting the tutorial, please begin by clicking 'Start Over' at the bottom of the index to your left.**
+
+If you have any questions and comments, please contact Dr. Raymond Mar [(mar@yorku.ca)](mailto:mar@yorku.ca?subject=Remindery-Unit2)
+
+## **UNIT 2: Measures of Central Tendency** {data-progressive=TRUE}
+
+**GOALS:**
+
+**- Learn how to use R to describe your data.**
+
+**- Examine different measures of central tendency, used to summarize scores.**
+
+**- Use R functions to play with some real-world data.**
+
+---
+
+Now that you've been introduced to R and have a feel for how these tutorials work, let's start to learn about some basic statistics that are important for understanding research. Often, we'll have lots of data to deal with, not just 5 or 6 numbers, and so it's useful to summarize all of that data in some way. The analyses we run to summarize our data our known as Summary Statistics, and these are part of a larger category known as Descriptive Statistics: Statistics that *describe* our data. Descriptive statistics are useful for giving us a sense of what our data look like, which can be difficult just by eye-balling things when we have lots of it. 
+
+One set of summary statistics are Measures of Central Tendency. This is just what it sounds like: an indication of the centre of our data, or where most of the data lies. We've already got a headstart here becaused we learned how to calculate the `mean` (a.k.a. an average) in UNIT 1. Although the `mean` is perhaps the most well known measure of central tendency, it's not the only one and not always the most useful one. The other two that we'll learn about are the `median` and the `mode`.
+
+Ok, let's begin. If you've forgotten how these tutorials work, feel free to return to UNIT 1  to refresh your memory. 
+
+### The Mean {data-progressive=TRUE}
+Imagine that you're 19 years-old and you're with 3 of your friends, one who is 20 and two others who are both 23. With only 4 people, you can easily communicate this information to others by saying each person's age (e.g., I'm 19, but Sinbad is 20, and Mustafa and Jelena are older, they're both 23). Or, if you like, you might want to summarize this information by reducing it to just one number. You can do this by calculating the `mean`. In order to calculate the mean, you need to add all the numbers together and then divide by how many numbers there are.
+
+In the box below, use R to calculate the mean for your group of friends.
+Please put your calculations into an `object` and then use that object to view the result. (If you recall, this is something you learned in Unit 1.)
+Remember that you'll need to use brackets in order to ensure that your numbers are summed first, then divided by the number of people, or do things in two separate steps. The mathematical symbol for division is `/`. 
+
+- You can always click the 'Hint' button to get some advice. 
+- Or click the 'Start Over' button to reset everything in this box (or the 'Start Over' link in the index to re-set the entire Unit).
+
+```{r calcmean, exercise = TRUE}
+
+
+```
+
+<div id="calcmean-hint">
+**Hint:** You need to add up all the ages, then take this new number and divide it by the number of people (i.e., 4 people, don't forget yourself!). 
+You also need to create an `object` and then put this information into it using `<-`. Then, to view the result, just put the name of your object on its own line.
+</div>
+
+### The Mean (2) {data-progressive=TRUE}
+
+If you've done things correctly, then you should have gotten a mean of 21.25. 
+
+Below is an example what your code might have looked like:
+```
+awesomeprof <- (19 + 20 + 23 + 23) / 4
+awesomeprof 
+```
+
+`awesomeprof` is our object that our calculation is placed inside, `(19 + 20 + 23 + 23)` sums all of our ages, and `/4` divides the result (kept in the brackets) by 4. We write `awesomeprof` on its own on the next line so we can look inside our object and see our result: 21.25.
+
+As we learned in Unit 1, we can also use the `mean()` function in R to do the same thing. With this approach, we put all our data into an object (using `c()` to concatenate all of our data first), then run the function on the object. Here's what it would look like:
+```
+awesomeprof <- c(19, 20, 23, 23)
+mean(awesomeprof)
+```
+
+You should get the same result with both sets of code. 
+So now, instead of listing everyone's ages, you can say, "my group of friends are a little over 21 years old, on average."
+
+### The Median {data-progressive=TRUE}
+
+The `mean` is just one measure of central tendency, with the other two being the `median` and the `mode`. Each tells us something different and has different strengths and weaknesses. Let's learn about all 3 first and then explore their differences in more detail. 
+
+The `median` is simply the middle point of the data. To calculate it, we arrange all of our data in order, from smallest to biggest, find the data-point that's right in the middle, and that's the median. Imagine our group of friends, but now your Auntie is joining the group and she's 52 years of age. Answer the quiz below regarding the median age for your group (Scroll up if you forget everyone's ages and don't forget your Auntie.) 
+
+```{r medianquiz, echo = FALSE}
+quiz(caption = "The Median.",
+    question("What is the median age for your group?",
+           answer("19"), 
+           answer("21.25"),
+           answer("23", correct = TRUE),
+           answer("52"),
+           incorrect = "Hint: Order all the ages from smallest to largest, and then find the number that's right in the middle, with equal numbers of ages on either side", 
+           allow_retry = TRUE
+  )
+)
+```
+
+### The Median (2)  {data-progressive=TRUE}
+
+Great! Now let's use R to confirm that your answer is correct. The function to calculate the median is simple, just like the one that we used to calculate the mean: `median(OBJECT)`. Remember,  instead of the word `OBJECT` you'd use the name of the object that you put your data into. So, in order to calculate the median for our data, we need to first put our data into an object, and then run the function `median` on that object. Give it a try below:
+
+
+```{r calcmedian, exercise = TRUE}
+
+
+```
+
+<div id="calcmedian-hint">
+**Hint:** You first need to put all your data, which are the ages of the people in your group (19, 52, 23, 20, 23) into an object (Don't forget to use the little c in front to *concatenate* all of these numbers; see UNIT 1 if you've forgotten this), and you can call this object whatever you want (e.g., `Neato`). Put the data into the `object` using the arrow `<-`. Then you need to use the function `median()` to find the median, putting the name of your object inside the brackets. 
+</div>
+
+### The Mode {data-progressive=TRUE}
+
+If you got the same number using your R code as you calculated by hand (i.e., 23), then you know you're getting the hang of things!
+
+Ok, the last measure of central tendency that we're going to learn about is called the `mode`. This is simply the number that appears most often in the data. So, for the data we've been working with, the `mode` should be really easy for us to spot. (Scroll up if you've forgotten everyone's ages again; my you're forgetful!)
+
+```{r modequiz, echo = FALSE}
+quiz(caption = "The Mode.",
+    question("What is the modal age for your group? (i.e., What is the mode for your data.)",
+           answer("19"), 
+           answer("20"),
+           answer("21.25"),
+           answer("23", correct = TRUE),
+           answer("52"),
+           incorrect = "Hint: What number appears more often than any other number in your data?", 
+           allow_retry = TRUE
+  )
+)
+```
+
+### The Mode (2) {data-progressive=TRUE}
+
+That's right! Two people are 23 years of age, and only 1 person is any other age. So, the `mode` tells us that "More people are 23 in the group than any other age". 
+
+Ok, let's use R to calculate the `mode` for our data. In order to do so, we're going to learn a few new things about R. First, R comes with some pre-loaded functions like `mean()` and `median()`, but not many. And so it actually doesn't come with a function to calculate the `mode`. 
+The good news is that many people love R and have created all kinds of functions to make R very useful. These functions are contained within packages, which need to be installed and then loaded into R's "library". 
+
+```{r eval = FALSE}
+library(DescTools) 
+```
+So, to help you out, I'm going to load a new package that will allow you to find the mode. This package is called "DescTools" (think, "Descriptive Tools") and you can install and load it into the library using the following lines of code:
+```
+install.packages("DescTools")
+library(DescTools)
+```
+NOTE: **You do NOT have to run these lines in the box below.** I have already run them for you in the background. This is just important code to learn for later, when you want to install and load packages for your own projects.
+
+The function in the "DescTools" package that finds the mode is `Mode()`. Note that R is case-sensitive, which means that `Mode()` will do something different than `mode()` (not the lower-case for the latter), so be very careful to use the right one. Whenever we need to learn more about a function, we simply use a line of code that includes `?` in front of the function. Give it a try below to learn how the `Mode()` function works.
+
+```{r learnmfv, exercise = TRUE}
+
+```
+
+<div id="learnmfv-hint">
+**Hint:** Bring up the help file for the `Mode()` function by using this line of code: `?Mode` 
+</div>
+
+### The Mode (3) {data-progressive=TRUE}
+Ok, it seems pretty simple. Basically, we just put the object with our data in it inside the parentheses for `Mode()`. 
+Let's give it a try and find the mode for our data.
+
+```{r calcmode, exercise = TRUE}
+
+```
+
+<div id="calcmode-hint">
+**Hint:** You first need to put all your data, which are the ages of the people in your group (19, 52, 23, 20, 23) into an object (Don't forget to use the little c in front to *concatenate* all of these numbers; see UNIT 1 if you've forgotten this), and you can call this object whatever you want (e.g., `Faizel`). Put the data into the `object` using the arrow `<-`. Then you need to use the function `Mode()` to find the mode, putting the name of your object inside the brackets. 
+</div>
+
+### Working With Larger Datasets {data-progressive=TRUE}
+
+If you got the same answer using your R code as you did calculating this by hand (i.e., 23), great work! 
+Note that in a dataset you can have no Mode (i.e., all values appear equally as often), 1 mode, or even more than one mode (e.g., imagine that in your friend group 2 people were aged 23, and another 2 people were aged 77; both 23 and 77 would be the modes). 
+
+You're probably finding it a bit silly to use R to calculate things like the mode and median when you can just spot the answer by looking at the data. Well, you're right. It is a bit silly. But we won't always have only 4 or 5 numbers to work with. As researchers, we often have hundreds or thousands of numbers to deal with and then it's going to be really useful to know how to use R to calculate these things. 
+
+There is also lots of interesting data that is free to download. The city of Toronto, for example, has made lots of data about the city available to [view and download here.](https://www.toronto.ca/city-government/data-research-maps/open-data/open-data-catalogue/) 
+
+If we learn how to do statistics and use R, we can download these data and analyze them to answer interesting questions. 
+To get these data into R, we would download the data and then load them into an object within R, similar to how we put data into an object "manually," in the examples above.  
+I've taken some of this City of Toronto data, removed some unnecessary lines to make things cleaner and easier to import, made sure all of the numbers were formatted correctly (as numbers, or numeric), and saved it as a .CSV file (comma separated values) which is a nice clean format that R likes. I have then loaded it into R and placed it into an object (`TOcatsdogs`) using the `read.csv()` function. Here's what the line of code looks like:
+```
+TOcatsdogs <- read.csv ("2016_licenced_dogs_and_cats.csv")
+```
+
+```{r prepare-catsdogs}
+TOcatsdogs <- read.csv (url("http://www.yorku.ca/mar/2016_licenced_dogs_and_cats.csv"))
+```
+
+### Looking at Data {data-progressive=TRUE}
+
+Now, let's take a quick look at what these data look like, using R. To get a glance at the first few lines of data, we can use the `head()` command. Just like with all the other functions we've been using so far, we put the object name within the brackets to apply the function to the object. Give it a try!
+
+```{r viewcatsdogs, exercise = TRUE, exercise.setup = "prepare-catsdogs", exercise.completion = TRUE}
+
+```
+
+<div id="viewcatsdogs-hint">
+**Hint:** R is case-sensitive, which means it matters whether you use lower-case or upper-case letters. Use the `head()` command, placing the name of the data-object `TOcatsdogs` within the parentheses, to take a look at these data. 
+</div>
+
+### Looking at Data (2) {data-progressive=TRUE}
+
+Great! You should see a small table showing the first 6 lines of data. You can see that there are 4 columns, corresponding to the 4 different variables in this dataset. (Scroll up if you want to look at them again.)
+
+ Variable Name | Description 
+---:|:---
+AREA | First 3 letters of the area code in Toronto
+CAT | Number of cats registered with the city in this area code
+DOG | Number of dogs registered with the city in this area code
+TOTAL | Total number of cats and dogs registered in this area code
+
+But let's imagine that we wanted to take a look at the first 10 lines of data, instead of just the first 6. 
+How would we go about doing this? Let's use what we learned from the previous exercises to figure out how to do this. How do we figure out what a function does, and how it works? Can we use this information to figure out how the `head()` function operates, and how to change the parameters to get the information we want (i.e., first 10 rows, instead of 6)?
+
+```{r see10cats, exercise = TRUE, exercise.setup = "prepare-catsdogs", exercise.completion = TRUE}
+
+```
+
+```{r see10cats-hint-1}
+?head
+```
+
+```{r see10cats-hint-2}
+head(TOcatsdogs, n = 6)
+```
+
+```{r see10cats-hint-3}
+head(TOcatsdogs, n = 10)
+```
+
+### Problem-solving and trouble-shooting
+You have just learned a very valuable lesson in R! Whenever you are struggling to figure out how to do something, the first thing to do is look at the help file (by placing `?` in front of the function, e.g., `?head()`). Functions often have many different ARGUMENTS, which you can think of as options or parameters. For `head()`, one of the arguments is `n`, which tells us how many rows to display when using this function. The default for `n` is 6, so we can change this to display more (or fewer) rows. 
+
+Another important lesson about R is that almost no-one writes code seamlessly without reference or help. Almost everyone relies on past or published code that does what we want, and this code is then edited to suit our needs. Searching for the right R code for what we want to do is immensely useful! Just be certain to include the phrase "R statistics" when searching, to help get the relevant results. [StackOverflow](https://stackoverflow.com/) is a very useful site for coding advice, so often hits from there are quite helpful. 
+
+### Using our Measures of Central Tendency for Real Data {data-progressive=TRUE}
+Ok, let's use our measures of central tendency to summarize how many cats and dogs are in each area code of Toronto. To identify a column in a dataset, we use the `$` to join the name of the data object and the particular variable we're interested in.
+So, to refer to the `CAT` variable in the `TOcatsdogs` data object, we'd write `TOcatsdogs$CAT`.
+Let's try to use our R code to find out the average number of cats registered in each area code of Toronto. 
+
+```{r avgcats, exercise = TRUE, exercise.setup = "prepare-catsdogs", exercise.completion = TRUE}
+
+```
+
+<div id="avgcats-hint">
+**Hint:** To calculate the average, we use the `mean()` function and place the object of interest within the parentheses. In this case, the object we're interested in is the CAT column of the `TOcatsdogs` data object, which we refer to by using `TOcatsdogs$CAT`. So, put this into the parentheses for the `mean()` function.  
+</div>
+
+### Using our Measures of Central Tendency for Real Data (2) {data-progressive=TRUE}
+
+If you've done things correctly, you should have found that on average, a postal-code area of Toronto has 252.051 cats registered within it. 
+Now, why don't you use what you already know about R to find out the answers to the following Quiz questions.
+
+```{r learnTOpets, exercise = TRUE, exercise.setup = "prepare-catsdogs", exercise.completion = TRUE}
+
+```
+
+<div id="learnTOpets-hint">
+**Hint:** To calculate the average, we use the `mean()` function and place the object of interest within the parentheses. To find the median, we use the `median()` function, and for the mode we use `Mode()`. To refer just to the CAT column, we use `TOcatsdogs$CAT`. And so, by extension, to refer ot the DOG column of our data we use `TOcatsdogs$DOG`, and to refer to the total we use `TOcatsdogs$TOTAL`. Data objects are put within the parentheses for a function. 
+</div>
+
+```{r learnTOpetsquiz, echo = FALSE}
+quiz(caption = "Cats and Dogs in Toronto",
+    question("What is the average number of DOGS per postal code area in Toronto?",
+           answer("562.4592", correct = TRUE), 
+           answer("252.051"),
+           answer("564.128"),
+           answer("488.2474"),
+           answer("A kerbillion"),
+           incorrect = "Wrong answer: Don't just guess, use the R window above to calculate your answer.", 
+           allow_retry = TRUE
+),
+   question("What is the median number of DOGS per postal code area in Toronto?",
+           answer("762"), 
+           answer("234.5"),
+           answer("482"),
+           answer("517", correct = TRUE),
+           answer("Too many"),
+           incorrect = "Wrong answer: Don't just guess, use the R window above to calculate your answer.", 
+           allow_retry = TRUE
+),
+    question("What is the R code for finding the mode for the TOTAL number of CATS and DOGS per postal code area in Toronto?",
+           answer("Mode(TOcatsdogs$CAT)"), 
+           answer("median(TOcatsdogs$TOTAL)"),
+           answer("Mode(TOcatsdogs$TOTAL)", correct = TRUE),
+           answer("mean(TOcatsdogs$DOG)"),
+           answer("Mashing fingers against keyboard and pretending to be hacker"),
+           incorrect = "Wrong answer: Don't just guess, use the R window above to calculate your answer.", 
+           allow_retry = TRUE
+),
+    question("What is the modal number (the mode for) of CATS per postal code area in Toronto?",
+           answer("456"), 
+           answer("Trick Question! There are actually 6 modes.", correct = TRUE),
+           answer("386"),
+           answer("120 and 456"),
+           answer("Trick Question! There is no mode for these data."),
+           incorrect = "Wrong answer: Don't just guess, use the R window above to calculate your answer.", 
+           allow_retry = TRUE
+)
+)
+```
+
+### Summary {data-progressive=TRUE}
+
+**Great Job!**
+You've learned so much in this tutorial and should be very proud of everything that you've done in R so far.
+For example, you now know:
+
+* How to calculate the Mean (`mean()`), which is what the data look like on average, across the entire group.
+* How to calculate the Median (`median()`), which is what the data in the very centre of the distribution looks like. You can also think of this as what the middle (or average) *person* looks like in a distribution.
+* How to calculate the Mode (`Mode()`), or the most common response in a dataset. 
+* And you've learned how to do all of this using R!
+* On top of all that, you've learned how to load data into R (`x <- read.csv ("example.csv")`).
+* how to look at the first few rows of a dataset (`head()`).
+* how to install packages that have different functions in them (`install.packages()`).
+* and load packages (`library()`).
+* and how to look up the help file for a particular function or package (`?head()`).
+
+**Way to go!**
+
+You've completed Unit 2 of the ReMInDeRY!
+
+If you are not sure you understood everything in this Unit, you can go through it again by clicking the 'Start Over' link in the Index, at the top-left part of your screen.
+
+**IMPORTANT NOTE FOR YORK STUDENTS:**
+
+PSYC 2030 (Research Methods) students: In order to get full marks for this assignment you must complete the Quiz for this tutorial, mentioned in the eClass assignment.
+
+PSYC 2020 (Statistics) students: [Click this link and enter all requested information carefully and accurately in order to receive your points for completing this tutorial](https://forms.gle/bdaPwBsVwYMyLdxn8).
+
+Now you're ready to tackle [Unit 3 of the ReMInDeRY](https://remindery.info.yorku.ca/demos/).
